@@ -1,20 +1,25 @@
 import os
 
+import cv as cv
 from ultralytics import YOLO
 import cv2
 
 
-VIDEOS_DIR = os.path.join('.', 'videos')
+VIDEOS_DIR = os.path.join('D:\pythonProject', 'Videos')
 
-video_path = os.path.join(VIDEOS_DIR, 'alpaca1.mp4')
+video_path = os.path.join(VIDEOS_DIR, 'alpaca3.mp4')
 video_path_out = '{}_out.mp4'.format(video_path)
 
 cap = cv2.VideoCapture(video_path)
 ret, frame = cap.read()
 H, W, _ = frame.shape
-out = cv2.VideoWriter(video_path_out, cv2.VideoWriter_fourcc(*'MP4V'), int(cap.get(cv2.CAP_PROP_FPS)), (W, H))
 
-model_path = os.path.join('.', 'runs', 'detect', 'train', 'weights', 'last.pt')
+# Define the codec and create a VideoWriter object
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Use 'XVID' or 'MJPG' for other codecs
+out = cv2.VideoWriter(video_path_out, fourcc, int(cap.get(cv2.CAP_PROP_FPS)), (W, H))
+
+#out = cv2.VideoWriter(video_path_out, cv.VideoWriter_fourcc('m', 'p', '4', 'v'), int(cap.get(cv2.CAP_PROP_FPS)), (W, H))
+model_path = 'D:\\pythonProject\\train-yolov8-custom-dataset-step-by-step-guide\\local_env\\runs\\detect\\train\\weights\\last.pt'
 
 # Load a model
 model = YOLO(model_path)  # load a custom model
